@@ -1,0 +1,12 @@
+/// This file provides a relational schema for postgreSQL using prisma ORM. 
+
+// Generator to generate a type-safe client according to the schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Defines DB connections
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
