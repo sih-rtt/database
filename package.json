@@ -2,6 +2,7 @@
   "name": "db_seed",
   "module": "index.ts",
   "devDependencies": {
+    "@faker-js/faker": "^8.2.0",
     "bun-types": "latest",
     "nodemon": "^3.0.1"
   },
@@ -10,6 +11,8 @@
   },
   "type": "module",
   "dependencies": {
-    "prisma": "^5.5.1"
+    "@prisma/client": "5.5.2",
+    "prisma": "^5.5.1",
+    "redis-om": "^0.4.2"
   }
 }
