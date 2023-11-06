@@ -1,6 +1,9 @@
 {
   "name": "db_seed",
   "module": "index.ts",
+  "scripts": {
+    "seed": "src/index.ts"
+  },
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",
     "@types/lodash": "^4.14.200",
