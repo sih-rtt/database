@@ -3,9 +3,11 @@ import {
   SEED_POSTGRE_CONDUCTOR,
   SEED_POSTGRE_BUSSTOP,
   SEED_POSTGRE_BUSROUTE,
-  SEED_POSTGRES
+  SEED_POSTGRES,
+  TRUNCATE_POSTGRES
 } from './postgres-seed';
 import chalk from 'chalk';
+import _ from 'lodash';
 
 const program = new Command();
 
@@ -52,5 +54,14 @@ program.command('redis')
   .option('-n, --num <int>', 'Number of records to be seeded.', '100')
   .option('-r, --repo <char>', 'Redis Repository to be seeded (Optional).', undefined)
   .action(redisSeedHandler)
+
+program.command('truncate')
+  .description(chalk.bold('This commands helps in seeding of PostgreSQL Database.'))
+  .argument('<database>', 'Database to be truncated')
+  .action(async (database) => {
+    const dbArg: string = _.toLower(database)
+    if (dbArg === 'pg' || dbArg === 'postgresql' || dbArg === 'postgres')
+      await TRUNCATE_POSTGRES();
+  })
 
 await program.parseAsync()
