@@ -19,6 +19,13 @@ To install dependencies run:
 ```bash
 bun install
 ```
+### Init Database
+
+To initialize database run: 
+
+```bash
+bunx prisma migrate dev
+```
 
 ### Usage
 
@@ -31,11 +38,11 @@ bun src/index.ts help
 **Example Usage:**
 
 ```bash
-bun src/index pg
-bun src/index pg -n 1000
-bun src/index pg -t <tablename>
-bun src/index pg -t <tablename> -n 1000
-bun src/index truncate pg
+bun src/index.ts pg
+bun src/index.ts pg -n 1000
+bun src/index.ts pg -t <tablename>
+bun src/index.ts pg -t <tablename> -n 1000
+bun src/index.ts truncate pg
 ```
 **_The redis database seeding tool is under development and doesn't work._**
 **_Make sure to seed "BusStop" before seeding "BusRoute", will result in error otherwise._**
