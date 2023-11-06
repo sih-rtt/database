@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "BusStop" ALTER COLUMN "name" SET DATA TYPE TEXT;
