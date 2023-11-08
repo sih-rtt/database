@@ -105,10 +105,11 @@ model Route {
 
 model CombinedRoute {
   id       String  @id @default(cuid())
-  routeIdA String
-  routeA   Route   @relation(fields: [routeIdA], references: [id], name: "routeA")
-  routeIdB String?
-  routeB   Route?  @relation(fields: [routeIdB], references: [id], name: "routeB")
+  busRef   String
+  routeIdA BigInt
+  routeA   Route   @relation(fields: [routeIdA], references: [refId], name: "routeA")
+  routeIdB BigInt?
+  routeB   Route?  @relation(fields: [routeIdB], references: [refId], name: "routeB")
   bus      Bus[]
 
   @@index(fields: [id], type: BTree)

@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { fakerEN_IN as faker } from '@faker-js/faker';
-import _ from 'lodash';
+import path from 'node:path';
+import fs from 'node:fs';
 import chalk from 'chalk';
 import { createId } from '@paralleldrive/cuid2';
 const cliProgress = require('cli-progress');
@@ -10,30 +11,14 @@ faker.seed(parseInt(process.env.SEED as string));
 
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
-export const getOsmData = async () => {
-  console.log(chalk.green('\nFetching OSM data...'))
-  try {
-    const res = await fetch(
-        'https://overpass-api.de/api/interpreter?data=%5Bout%3Ajson%5D%5Btimeout%3A25%5D%3Barea%28id%3A3607902476%29-%3E.a%3B%28relation%5B%22type%22%3D%22route%22%5D%5B%22route%22%3D%22bus%22%5D%28area.a%29%3B%3E%3Bnode%28r%29%3B%29%3Bout%3B'
-      )
-      .then(
-        (data: any) => data.json()
-      );
-    return res.elements?.filter((elem: any) => elem?.type === 'node');
-
-  } catch(e) {
-    console.log(chalk.red('Error: ', chalk.white('Could not fetch data\n')));
-    console.log(e);
-    process.exit(1);
-  }
-  
-}
 
 export const seedBusStops = async () => {
-  const busStops: any[] = await getOsmData();
   
   try{
     console.log('\n');
+
+    const pathName: PathOrFileDescriptor = path.resolve('src','data','bus-stops.json');
+    const busStops: any[] = JSON.parse(fs.readFileSync(pathName, 'utf-8')).busStops;
 
     progressBar.start(busStops.length, 0);
     for (let i = 0; i < busStops.length; i++) {
