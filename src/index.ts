@@ -11,26 +11,6 @@ import _ from 'lodash';
 
 const program = new Command();
 
-async function pgSeedHandler(this: any) {
-    const option = this.opts();
-
-    if (!option.table) {
-      await SEED_POSTGRES(option.num as number);
-      return;
-    }
-
-    if (option.table === 'Conductor') {
-      await SEED_POSTGRE_CONDUCTOR(option.num as number);
-
-    } else if (option.table === 'BusStop') {
-      await SEED_POSTGRE_BUSSTOP();
-
-    } else if (option.table === 'BusRoute') {
-      await SEED_POSTGRE_BUSROUTE();
-
-    }
-  };
-
 async function redisSeedHandler(this: any) {};
 
 program
@@ -41,8 +21,10 @@ program
 program.command('pg')
   .description(chalk.bold('This commands helps in seeding of PostgreSQL Database.'))
   .option('-n, --num <int>', 'Number of records to be seeded. (Works only for "Conductor" table)', '100')
-  .option('-t, --table <char>', 'Table to be seeded (Optional)', undefined)
-  .action(pgSeedHandler)
+  .action(async function (this: any) {
+    const option = this.opts();
+    await SEED_POSTGRES(option.num as number);
+  });
 
 program.command('redis')
   .description(
@@ -51,8 +33,6 @@ program.command('redis')
       chalk.bold.yellow('\rUnder Development')
     )
   )
-  .option('-n, --num <int>', 'Number of records to be seeded.', '100')
-  .option('-r, --repo <char>', 'Redis Repository to be seeded (Optional).', undefined)
   .action(redisSeedHandler)
 
 program.command('truncate')

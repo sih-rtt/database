@@ -20,7 +20,7 @@ export const seedCombinedBusRoutes = async () => {
 
     progressBar.start(busRefs.length, 0);
     for (let i = 0; i < busRefs.length; i++) {
-      await prisma.combinedRoute.create({
+      await prisma.combinedRoute.createMany({
         data: combindeRoutes[busRefs[i]].length === 1
         ?  {
           busRef: busRefs[i],
@@ -30,7 +30,8 @@ export const seedCombinedBusRoutes = async () => {
           busRef: busRefs[i],
           routeIdA: combindeRoutes[busRefs[i]][0],
           routeIdB: combindeRoutes[busRefs[i]][1]
-        }
+        },
+        skipDuplicates: true
       });
       progressBar.update(i);
     }

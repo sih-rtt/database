@@ -105,7 +105,7 @@ model Route {
 
 model CombinedRoute {
   id       String  @id @default(cuid())
-  busRef   String
+  busRef   String  @unique
   routeIdA BigInt
   routeA   Route   @relation(fields: [routeIdA], references: [refId], name: "routeA")
   routeIdB BigInt?
