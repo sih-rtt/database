@@ -14,6 +14,7 @@ faker.seed(parseInt(process.env.SEED as string));
 
 export const seedBus = async () => {
   try{
+    console.log('\n');
 
     const pathName: PathOrFileDescriptor = path.resolve('src', 'data', 'buses.json');
     const buses: string[] = JSON.parse(fs.readFileSync(pathName, 'utf-8')).buses;

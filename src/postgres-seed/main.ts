@@ -16,19 +16,19 @@ export const seedCompletePg = async (numRecords: number) => {
   await PREPARE_DATA();
 
   console.log(
-    chalk.white('Running', chalk.bold(4), 'jobs:\n'),
+    chalk.white('Running', chalk.bold(5), 'jobs:\n'),
     chalk.white.bold('\t1. Seed Conductor\n'),
     chalk.white.bold('\t2. Seed BusStop\n'),
-    chalk.white.bold('\t3. Seed BusRoute'),
-    chalk.white.bold('\t4. Seed CombinedRoute'),
-    chalk.white.bold('\tr. Seed Bus')
+    chalk.white.bold('\t3. Seed BusRoute\n'),
+    chalk.white.bold('\t4. Seed CombinedRoute\n'),
+    chalk.white.bold('\t5. Seed Bus')
   )
 
   await seedConductor(numRecords);
-  console.log(chalk.white('Completed job (1/3): ', chalk.bold('Seed Conductor ', chalk.green('✅'))));
+  console.log(chalk.white('Completed job (1/5): ', chalk.bold('Seed Conductor ', chalk.green('✅'))));
 
   await seedBusStops();
-  console.log(chalk.white('Completed job (2/3): ', chalk.bold('Seed BusStop ', chalk.green('✅'))));
+  console.log(chalk.white('Completed job (2/5): ', chalk.bold('Seed BusStop ', chalk.green('✅'))));
 
   await seedBusRoutes();
   console.log(chalk.white('Completed job (3/5): ', chalk.bold('Seed BusRoute ', chalk.green('✅'))));

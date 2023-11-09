@@ -1,9 +1,7 @@
 {
   "name": "db_seed",
   "module": "index.ts",
-  "scripts": {
-    "seed": "src/index.ts"
-  },
+  "type": "module",
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",
     "@types/lodash": "^4.14.200",
@@ -12,7 +10,6 @@
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
-  "type": "module",
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
     "@prisma/client": "5.5.2",
@@ -22,6 +19,7 @@
     "lodash": "^4.17.21",
     "ora": "^7.0.1",
     "prisma": "^5.5.1",
+    "redis": "^4.6.10",
     "redis-om": "^0.4.2"
   }
 }
