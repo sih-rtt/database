@@ -73,7 +73,7 @@ model Ticket {
   from       String
   to         String
   createdAt  DateTime  @default(now())
-  verifiedAt DateTime?
+  verifiedAt  DateTime?
   userId     String
   user       User      @relation(fields: [userId], references: [id])
 }
@@ -116,7 +116,7 @@ model CombinedRoute {
 }
 
 model BusStopsInRoute {
-  id String @id @default(cuid())
+  id           String  @id @default(cuid())
   busStopRefId BigInt
   busStop      BusStop @relation(fields: [busStopRefId], references: [refId])
   routeRefId   BigInt

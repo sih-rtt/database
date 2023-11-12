@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { fakerEN_IN as faker } from '@faker-js/faker';
 import path from 'node:path';
 import fs from 'node:fs';
 import chalk from 'chalk';
@@ -7,7 +6,6 @@ import { createId } from '@paralleldrive/cuid2';
 const cliProgress = require('cli-progress');
 
 const prisma = new PrismaClient();
-faker.seed(parseInt(process.env.SEED as string));
 
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 

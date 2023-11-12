@@ -1,8 +1,5 @@
 import { Command } from 'commander';
 import {
-  SEED_POSTGRE_CONDUCTOR,
-  SEED_POSTGRE_BUSSTOP,
-  SEED_POSTGRE_BUSROUTE,
   SEED_POSTGRES,
   TRUNCATE_POSTGRES
 } from './postgres-seed';
@@ -36,7 +33,7 @@ program.command('redis')
   .action(redisSeedHandler)
 
 program.command('truncate')
-  .description(chalk.bold('This commands helps in seeding of PostgreSQL Database.'))
+  .description(chalk.bold('This commands truncates the PostgreSQL Database.'))
   .argument('<database>', 'Database to be truncated')
   .action(async (database) => {
     const dbArg: string = _.toLower(database)
