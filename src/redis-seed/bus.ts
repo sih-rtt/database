@@ -23,27 +23,27 @@ export const seedBuses = async () => {
       
       const bus = busRoute.length === 2
       ? {
-        id: buses[i].id,
-        regNo: buses[i].regNo,
-        busNo: buses[i].busNo,
-        type: buses[i].type,
-        info: JSON.stringify(buses[i].info),
+        id: buses[i].id ?? null,
+        regNo: buses[i].regNo ?? null,
+        busNo: buses[i].busNo ?? null,
+        type: buses[i].type ?? null,
+        info: JSON.stringify(buses[i].info) ?? null,
         routeA: busRoute[0].members
           .filter((member: any) => member.type === 'node')
-          .map((member: any) => member.ref),
+          .map((member: any) => member.ref) ?? null,
         routeB: busRoute[1].members
           .filter((member: any) => member.type === 'node')
-          .map((member: any) => member.ref)
+          .map((member: any) => member.ref) ?? null
       }
       : {
-        id: buses[i].id,
-        regNo: buses[i].regNo,
-        busNo: buses[i].busNo,
-        type: buses[i].type,
-        info: JSON.stringify(buses[i].info),
+        id: buses[i].id ?? null,
+        regNo: buses[i].regNo ?? null,
+        busNo: buses[i].busNo ?? null,
+        type: buses[i].type ?? null,
+        info: JSON.stringify(buses[i].info) ?? null,
         routeA: busRoute[0].members
           .filter((member: any) => member.type === 'node')
-          .map((member: any) => member.ref),
+          .map((member: any) => member.ref) ?? null,
       }
 
       await busRepo.save(bus);
@@ -60,5 +60,23 @@ export const seedBuses = async () => {
     console.log(e);
     process.exit(1);
 
+  }
+}
+
+export const truncateBus = async () => {
+  try {
+    const buses = await busRepo.search().return.all();
+    if (!buses.length)
+      return;
+    for( let i = 0; i < buses.length; i++) {
+      const entitySymbol: string = Object.getOwnPropertySymbols(buses[i])[0] as unknown as string;
+      const bus: string = buses[i][entitySymbol] as string
+      await busRepo.remove(bus);
+    }
+    busRepo.dropIndex();
+
+  } catch(e) {
+    console.log(e)
+    console.log(chalk.red.bold('Error:', chalk.white('Could not truncate Redis Bus repo.\n')));
   }
 }

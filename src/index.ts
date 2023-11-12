@@ -1,14 +1,17 @@
-import { Command } from 'commander';
 import {
   SEED_POSTGRES,
   TRUNCATE_POSTGRES
 } from './postgres-seed';
+import {
+  SEED_REDIS,
+  TRUNCATE_REDIS
+} from './redis-seed';
+import { Command } from 'commander';
 import chalk from 'chalk';
 import _ from 'lodash';
+import redis from './redis-seed/redis';
 
 const program = new Command();
-
-async function redisSeedHandler(this: any) {};
 
 program
   .name('seed')
@@ -24,21 +27,25 @@ program.command('pg')
   });
 
 program.command('redis')
-  .description(
-    chalk.bold(
-      'This commands helps in seeding of Redis Database.',
-      chalk.bold.yellow('\rUnder Development')
-    )
-  )
-  .action(redisSeedHandler)
+  .description(chalk.bold('This commands helps in seeding of Redis Database.',))
+  .action(async function (this: any) {
+    await SEED_REDIS();
+    redis.quit();
+  })
 
 program.command('truncate')
   .description(chalk.bold('This commands truncates the PostgreSQL Database.'))
   .argument('<database>', 'Database to be truncated')
   .action(async (database) => {
     const dbArg: string = _.toLower(database)
-    if (dbArg === 'pg' || dbArg === 'postgresql' || dbArg === 'postgres')
+    if (dbArg === 'pg' || dbArg === 'postgresql' || dbArg === 'postgres') 
       await TRUNCATE_POSTGRES();
+    else if (dbArg === 'redis') {
+      await TRUNCATE_REDIS();
+      redis.quit();
+    }
+    else
+      console.log(chalk.red(`Unknown Argument '${dbArg}'`));
   })
 
 await program.parseAsync()

@@ -48,3 +48,21 @@ export const seedBusStops = async () => {
 
   }
 }
+
+export const truncateBusStop = async () => {
+  try {
+    const busStops = await busStopRepo.search().return.all();
+    if (!busStops.length)
+      return;
+    for( let i = 0; i < busStops.length; i++) {
+      const entitySymbol: string = Object.getOwnPropertySymbols(busStops[i])[0] as unknown as string;
+      const bus: string = busStops[i][entitySymbol] as string
+      await busStopRepo.remove(bus);
+    }
+    busStopRepo.dropIndex();
+
+  } catch(e) {
+    console.log(e)
+    console.log(chalk.red.bold('Error:', chalk.white('Could not truncate Redis Bus repo.\n')));
+  }
+}

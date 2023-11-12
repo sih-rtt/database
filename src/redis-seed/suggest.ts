@@ -47,3 +47,23 @@ export const seedSuggest = async () => {
 
   }
 }
+
+export const truncateSuggest = async () => {
+  try {
+    const suggestEntities = await suggestRepo.search().return.all();
+    if (!suggestEntities.length)
+      return;
+    for( let i = 0; i < suggestEntities.length; i++) {
+      const entitySymbol: string = Object.getOwnPropertySymbols(suggestEntities[i])[0] as unknown as string;
+      const bus: string = suggestEntities[i][entitySymbol] as string
+      await suggestRepo.remove(bus);
+    }
+    suggestRepo.dropIndex();
+
+  } catch(e) {
+    console.log(e)
+    console.log(chalk.red.bold('Error:', chalk.white('Could not truncate Redis Bus repo.\n')));
+  }
+}
+
+await seedSuggest();

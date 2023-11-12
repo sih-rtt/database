@@ -6,6 +6,8 @@ import { seedCombinedBusRoutes } from './combined-routes';
 import { seedConductor } from './conductor';
 import { seedBus } from './bus';
 import { PREPARE_DATA } from '../prepare';
+import fs from 'node:fs';
+import path from 'node:path';
 
 const prisma = new PrismaClient();
 
@@ -13,7 +15,21 @@ export const seedCompletePg = async (numRecords: number) => {
 
   await truncatePgTables();
 
-  await PREPARE_DATA();
+  if (!fs.existsSync(path.resolve('src', 'data'))){
+    fs.mkdirSync(path.resolve('src', 'data'), { recursive: true });
+    await PREPARE_DATA();
+  } else {
+    console.log(chalk.bold(
+      `
+        Data seems to be prepared already. 
+        If you think the data is not prepared,
+        or is too old,
+        or you get an error because of the prepared data,
+        please prepare the data again bye using\n 
+        bun src/index.ts prepare
+      `
+    ));
+  }
 
   console.log(
     chalk.white('Running', chalk.bold(5), 'jobs:\n'),

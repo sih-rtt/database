@@ -37,9 +37,6 @@ const prepareData = async () => {
 
   console.log(chalk.bold('\nPreparing data'));
 
-  if (!fs.existsSync(path.resolve('src', 'data')))
-    fs.mkdirSync(path.resolve('src', 'data'), { recursive: true });
-
   const routes: any[] = data.filter((element) => element.type === 'relation' && element.members);
   const routesWithRef: any[] = routes.filter((route) => route.tags && route.tags.ref);
   fs.writeFileSync(path.resolve('src', 'data', 'routes.json'), JSON.stringify({ routesWithRef }));
