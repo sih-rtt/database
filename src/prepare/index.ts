@@ -27,7 +27,7 @@ export const getOsmData = async () => {
   
 }
 
-const prepareData = async () => {
+const prepareData = async (directCall: boolean = false) => {
   const data: any[] = await getOsmData();
 
   if (!data) {
@@ -36,6 +36,10 @@ const prepareData = async () => {
   }
 
   console.log(chalk.bold('\nPreparing data'));
+
+  if (directCall)
+    if (!fs.existsSync(path.resolve('src', 'data')))
+      fs.mkdirSync(path.resolve('src', 'data'), { recursive: true });
 
   const routes: any[] = data.filter((element) => element.type === 'relation' && element.members);
   const routesWithRef: any[] = routes.filter((route) => route.tags && route.tags.ref);

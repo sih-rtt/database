@@ -10,6 +10,7 @@ import { Command } from 'commander';
 import chalk from 'chalk';
 import _ from 'lodash';
 import redis from './redis-seed/redis';
+import { PREPARE_DATA } from './prepare';
 
 const program = new Command();
 
@@ -46,6 +47,12 @@ program.command('truncate')
     }
     else
       console.log(chalk.red(`Unknown Argument '${dbArg}'`));
+  })
+
+program.command('prepare')
+  .description(chalk.bold('This commands prepares the data for seeding and stores the prepared json files in src/data/.',))
+  .action(async function (this: any) {
+    await PREPARE_DATA(true);
   })
 
 await program.parseAsync()
