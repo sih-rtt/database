@@ -29,11 +29,11 @@ export const seedCompleteRedis = async () => {
   }
 
   console.log(
-    chalk.white('Running', chalk.bold(3), 'jobs:\n'),
+    chalk.white('Running', chalk.bold(4), 'jobs:\n'),
     chalk.white.bold('\t1. Seed Bus\n'),
     chalk.white.bold('\t2. Seed BusStop\n'),
     chalk.white.bold('\t3. Seed Suggest\n'),
-    chalk.white.bold('\t3. Seed Test Stream\n')
+    chalk.white.bold('\t4. Seed Test Stream\n')
   )
 
   await seedBuses();
@@ -51,7 +51,7 @@ export const seedCompleteRedis = async () => {
 
 export const truncateRedisRepos = async () => {
   console.log(
-    chalk.white('Running', chalk.bold(3), 'jobs:\n'),
+    chalk.white('Running', chalk.bold(4), 'jobs:\n'),
     chalk.white.bold('\t1. Truncate Bus\n'),
     chalk.white.bold('\t2. Truncate BusStop\n'),
     chalk.white.bold('\t3. Truncate Suggest\n'),

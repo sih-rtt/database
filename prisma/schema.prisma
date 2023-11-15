@@ -99,7 +99,9 @@ model Route {
   id            String            @id @default(cuid())
   refId         BigInt            @unique
   from          String?
+  fromLocation  Unsupported("geometry(POINT, 4326)")?
   to            String?
+  toLocation    Unsupported("geometry(POINT, 4326)")?
   busStops      BusStopsInRoute[]
   sessions      Session[]
   busesOnTouteA CombinedRoute[]   @relation(name: "routeA")

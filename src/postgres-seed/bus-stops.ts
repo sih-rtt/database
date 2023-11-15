@@ -20,25 +20,14 @@ export const seedBusStops = async () => {
 
     progressBar.start(busStops.length, 0);
     for (let i = 0; i < busStops.length; i++) {
-      if (!busStops[i].tags?.name)
-        await prisma.$executeRaw`
-          INSERT INTO "BusStop" (id, location, name, "refId") 
-          VALUES (
-            ${createId() as string}, 
-            ST_GeomFromText('POINT(' || ${busStops[i].lon as string} || ' ' || ${busStops[i].lat as string} || ')', 4326), 
-            'unnamed', 
-            ${busStops[i].id}
-          );
-        `;
-      else
-        await prisma.$executeRaw`
-          INSERT INTO "BusStop" (id, location, name, "refId") 
-          VALUES (
-            ${createId() as string}, 
-            ST_GeomFromText('POINT(' || ${busStops[i].lon as string} || ' ' || ${busStops[i].lat as string} || ')', 4326), 
-            ${busStops[i].tags.name as string}, 
-            ${busStops[i].id}
-          );
+      await prisma.$executeRaw`
+        INSERT INTO "BusStop" (id, location, name, "refId") 
+        VALUES (
+          ${createId() as string}, 
+          ST_GeomFromText('POINT(' || ${busStops[i].lon as string} || ' ' || ${busStops[i].lat as string} || ')', 4326), 
+          ${busStops[i].tags?.name as string ?? 'unnamed'},
+          ${busStops[i].id}
+        );
       `;
       progressBar.update(i);
     }

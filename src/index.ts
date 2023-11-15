@@ -46,6 +46,10 @@ program.command('truncate')
     else if (dbArg === 'redis') {
       await TRUNCATE_REDIS();
     }
+    else if (dbArg === 'all') {
+      await TRUNCATE_POSTGRES();
+      await TRUNCATE_REDIS();
+    }
     else
       console.log(chalk.red(`Unknown Argument '${dbArg}'`));
 
