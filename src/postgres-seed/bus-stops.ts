@@ -25,7 +25,6 @@ export const seedBusStops = async () => {
           INSERT INTO "BusStop" (id, location, name, "refId") 
           VALUES (
             ${createId() as string}, 
-            // ST_GeomFromText('LINESTRING('77.123213' '13.76213', '77.123213' '13.76213', '77.123213' '13.76213')', 4326), 
             ST_GeomFromText('POINT(' || ${busStops[i].lon as string} || ' ' || ${busStops[i].lat as string} || ')', 4326), 
             'unnamed', 
             ${busStops[i].id}
