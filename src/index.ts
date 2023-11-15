@@ -1,37 +1,18 @@
-import { Command } from 'commander';
 import {
-  SEED_POSTGRE_CONDUCTOR,
-  SEED_POSTGRE_BUSSTOP,
-  SEED_POSTGRE_BUSROUTE,
   SEED_POSTGRES,
   TRUNCATE_POSTGRES
 } from './postgres-seed';
+import {
+  SEED_REDIS,
+  TRUNCATE_REDIS
+} from './redis-seed';
+import { Command } from 'commander';
 import chalk from 'chalk';
 import _ from 'lodash';
+import redis from './redis-seed/redis';
+import { PREPARE_DATA } from './prepare';
 
 const program = new Command();
-
-async function pgSeedHandler(this: any) {
-    const option = this.opts();
-
-    if (!option.table) {
-      await SEED_POSTGRES(option.num as number);
-      return;
-    }
-
-    if (option.table === 'Conductor') {
-      await SEED_POSTGRE_CONDUCTOR(option.num as number);
-
-    } else if (option.table === 'BusStop') {
-      await SEED_POSTGRE_BUSSTOP();
-
-    } else if (option.table === 'BusRoute') {
-      await SEED_POSTGRE_BUSROUTE();
-
-    }
-  };
-
-async function redisSeedHandler(this: any) {};
 
 program
   .name('seed')
@@ -41,27 +22,45 @@ program
 program.command('pg')
   .description(chalk.bold('This commands helps in seeding of PostgreSQL Database.'))
   .option('-n, --num <int>', 'Number of records to be seeded. (Works only for "Conductor" table)', '100')
-  .option('-t, --table <char>', 'Table to be seeded (Optional)', undefined)
-  .action(pgSeedHandler)
+  .action(async function (this: any) {
+    const option = this.opts();
+    await SEED_POSTGRES(option.num as number);
+    redis.quit();
+  });
 
 program.command('redis')
-  .description(
-    chalk.bold(
-      'This commands helps in seeding of Redis Database.',
-      chalk.bold.yellow('\rUnder Development')
-    )
-  )
-  .option('-n, --num <int>', 'Number of records to be seeded.', '100')
-  .option('-r, --repo <char>', 'Redis Repository to be seeded (Optional).', undefined)
-  .action(redisSeedHandler)
+  .description(chalk.bold('This commands helps in seeding of Redis Database.',))
+  .action(async function (this: any) {
+    await SEED_REDIS();
+    redis.quit();
+  })
 
 program.command('truncate')
-  .description(chalk.bold('This commands helps in seeding of PostgreSQL Database.'))
+  .description(chalk.bold('This commands truncates the PostgreSQL Database.'))
   .argument('<database>', 'Database to be truncated')
   .action(async (database) => {
     const dbArg: string = _.toLower(database)
-    if (dbArg === 'pg' || dbArg === 'postgresql' || dbArg === 'postgres')
+    if (dbArg === 'pg' || dbArg === 'postgresql' || dbArg === 'postgres') {
       await TRUNCATE_POSTGRES();
+    }
+    else if (dbArg === 'redis') {
+      await TRUNCATE_REDIS();
+    }
+    else if (dbArg === 'all') {
+      await TRUNCATE_POSTGRES();
+      await TRUNCATE_REDIS();
+    }
+    else
+      console.log(chalk.red(`Unknown Argument '${dbArg}'`));
+
+    redis.quit();
+  })
+
+program.command('prepare')
+  .description(chalk.bold('This commands prepares the data for seeding and stores the prepared json files in src/data/.',))
+  .action(async function (this: any) {
+    await PREPARE_DATA(true);
+    redis.quit();
   })
 
 await program.parseAsync()
