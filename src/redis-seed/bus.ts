@@ -1,5 +1,6 @@
 import { busRepo } from './redis';
 import { PrismaClient } from '@prisma/client';
+import { Entity, EntityId } from 'redis-om';
 import fs from 'node:fs';
 import path from 'node:path';
 import chalk from 'chalk';
@@ -65,12 +66,11 @@ export const seedBuses = async () => {
 
 export const truncateBus = async () => {
   try {
-    const buses = await busRepo.search().return.all();
+    const buses: Entity[] = await busRepo.search().return.all();
     if (!buses.length)
       return;
     for( let i = 0; i < buses.length; i++) {
-      const entitySymbol: string = Object.getOwnPropertySymbols(buses[i])[0] as unknown as string;
-      const bus: string = buses[i][entitySymbol] as string
+      const bus: string = buses[i][EntityId] as string
       await busRepo.remove(bus);
     }
     busRepo.dropIndex();

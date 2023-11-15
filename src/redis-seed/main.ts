@@ -6,6 +6,7 @@ import path from 'node:path';
 import { seedBuses, truncateBus } from './bus';
 import { seedBusStops, truncateBusStop } from './bus-stop';
 import { seedSuggest, truncateSuggest } from './suggest';
+import { createTestStream, truncateTestStream } from './locations-stream';
 
 export const seedCompleteRedis = async () => {
 
@@ -31,17 +32,21 @@ export const seedCompleteRedis = async () => {
     chalk.white('Running', chalk.bold(3), 'jobs:\n'),
     chalk.white.bold('\t1. Seed Bus\n'),
     chalk.white.bold('\t2. Seed BusStop\n'),
-    chalk.white.bold('\t3. Seed Suggest\n')
+    chalk.white.bold('\t3. Seed Suggest\n'),
+    chalk.white.bold('\t3. Seed Test Stream\n')
   )
 
   await seedBuses();
-  console.log(chalk.white('Completed job (1/3): ', chalk.bold('Seed Bus ', chalk.green('✅'))));
+  console.log(chalk.white('Completed job (1/4): ', chalk.bold('Seed Bus ', chalk.green('✅'))));
 
   await seedBusStops();
-  console.log(chalk.white('Completed job (2/3): ', chalk.bold('Seed BusStop ', chalk.green('✅'))));
+  console.log(chalk.white('Completed job (2/4): ', chalk.bold('Seed BusStop ', chalk.green('✅'))));
 
   await seedSuggest();
-  console.log(chalk.white('Completed job (3/3): ', chalk.bold('Seed Suggest ', chalk.green('✅'))));
+  console.log(chalk.white('Completed job (3/4): ', chalk.bold('Seed Suggest ', chalk.green('✅'))));
+
+  await createTestStream()
+  console.log(chalk.white('Completed job (4/4): ', chalk.bold('Seed Test Stream ', chalk.green('✅'))));
 }
 
 export const truncateRedisRepos = async () => {
@@ -50,12 +55,15 @@ export const truncateRedisRepos = async () => {
     chalk.white.bold('\t1. Truncate Bus\n'),
     chalk.white.bold('\t2. Truncate BusStop\n'),
     chalk.white.bold('\t3. Truncate Suggest\n'),
+    chalk.white.bold('\n4. Truncate Test Stream\n')
   );
   await truncateBus();
-  console.log(chalk.white('Completed job (1/3): ', chalk.bold('Truncate Bus ', chalk.green('✅'))));
+  console.log(chalk.white('Completed job (1/4): ', chalk.bold('Truncate Bus ', chalk.green('✅'))));
   await truncateBusStop();
-  console.log(chalk.white('Completed job (2/3): ', chalk.bold('Truncate BusStop ', chalk.green('✅'))));
+  console.log(chalk.white('Completed job (2/4): ', chalk.bold('Truncate BusStop ', chalk.green('✅'))));
   await truncateSuggest();
-  console.log(chalk.white('Completed job (3/3): ', chalk.bold('Truncate Suggest ', chalk.green('✅'))));
+  console.log(chalk.white('Completed job (3/4): ', chalk.bold('Truncate Suggest ', chalk.green('✅'))));
+  await truncateTestStream();
+  console.log(chalk.white('Completed job (4/4): ', chalk.bold('Truncate Test Stream ', chalk.green('✅'))));
 
 }

@@ -26,20 +26,24 @@ model Conductor {
 }
 
 model Session {
-  id            Int                                        @id @default(autoincrement())
-  busId         String
-  bus           Bus                                        @relation(fields: [busId], references: [id])
-  tickets       Ticket[]
-  conductorId   String
-  conductor     Conductor                                  @relation(fields: [conductorId], references: [id])
-  startTime     DateTime                                   @default(now())
-  endTime       DateTime?
-  polyline      Unsupported("geometry(LINESTRING, 4326)")?
-  status        String                                     @default("ongoing")
-  startLocation Unsupported("geometry(POINT, 4326)")
-  endLocation   Unsupported("geometry(POINT, 4326)")?
+  id                Int                                        @id @default(autoincrement())
+  routeId           String
+  route             Route                                      @relation(fields: [routeId], references: [id])
+  busId             String
+  bus               Bus                                        @relation(fields: [busId], references: [id])
+  tickets           Ticket[]
+  conductorId       String
+  conductor         Conductor                                  @relation(fields: [conductorId], references: [id])
+  startTime         DateTime                                   @default(now())
+  endTime           DateTime?
+  polyline          Unsupported("geometry(LINESTRING, 4326)")?
+  status            String                                     @default("ongoing")
+  startLocation     Unsupported("geometry(POINT, 4326)")
+  endLocation       Unsupported("geometry(POINT, 4326)")?
+  startLocationName String
+  endLocationName   String?
 
-  @@index([polyline, startLocation, endLocation], name: "session_idx", type: BTree)
+  @@index([startLocation, endLocation], name: "session_idx", type: BTree)
 }
 
 model Bus {
@@ -73,7 +77,7 @@ model Ticket {
   from       String
   to         String
   createdAt  DateTime  @default(now())
-  verifiedAt  DateTime?
+  verifiedAt DateTime?
   userId     String
   user       User      @relation(fields: [userId], references: [id])
 }
@@ -97,6 +101,7 @@ model Route {
   from          String?
   to            String?
   busStops      BusStopsInRoute[]
+  sessions      Session[]
   busesOnTouteA CombinedRoute[]   @relation(name: "routeA")
   busesOnRouteB CombinedRoute[]   @relation(name: "routeB")
 

@@ -1,6 +1,7 @@
 import { busStopRepo } from './redis';
 import { PrismaClient } from '@prisma/client';
 import chalk from 'chalk';
+import { Entity, EntityId } from 'redis-om';
 const cliProgress = require('cli-progress');
 
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
@@ -51,12 +52,11 @@ export const seedBusStops = async () => {
 
 export const truncateBusStop = async () => {
   try {
-    const busStops = await busStopRepo.search().return.all();
+    const busStops: Entity[] = await busStopRepo.search().return.all();
     if (!busStops.length)
       return;
     for( let i = 0; i < busStops.length; i++) {
-      const entitySymbol: string = Object.getOwnPropertySymbols(busStops[i])[0] as unknown as string;
-      const bus: string = busStops[i][entitySymbol] as string
+      const bus: string = busStops[i][EntityId] as string
       await busStopRepo.remove(bus);
     }
     busStopRepo.dropIndex();

@@ -1,3 +1,4 @@
+import { Entity, EntityId } from 'redis-om';
 import redis, { busRepo, busStopRepo, suggestRepo } from './redis';
 import chalk from 'chalk';
 const cliProgress = require('cli-progress');
@@ -50,12 +51,11 @@ export const seedSuggest = async () => {
 
 export const truncateSuggest = async () => {
   try {
-    const suggestEntities = await suggestRepo.search().return.all();
+    const suggestEntities: Entity[] = await suggestRepo.search().return.all();
     if (!suggestEntities.length)
       return;
     for( let i = 0; i < suggestEntities.length; i++) {
-      const entitySymbol: string = Object.getOwnPropertySymbols(suggestEntities[i])[0] as unknown as string;
-      const bus: string = suggestEntities[i][entitySymbol] as string
+      const bus: string = suggestEntities[i][EntityId] as string
       await suggestRepo.remove(bus);
     }
     suggestRepo.dropIndex();
@@ -65,5 +65,3 @@ export const truncateSuggest = async () => {
     console.log(chalk.red.bold('Error:', chalk.white('Could not truncate Redis Bus repo.\n')));
   }
 }
-
-await seedSuggest();

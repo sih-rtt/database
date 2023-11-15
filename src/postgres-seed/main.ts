@@ -82,7 +82,7 @@ export const truncatePgTables = async () => {
 
   try {
     await prisma.$executeRaw`ALTER SEQUENCE \"public\".\"Session_id_seq\" RESTART WITH 1;`;
-    console.log(chalk.white('Completed job : ', chalk.bold('Truncate BusRoute ', chalk.green('✅'))));
+    console.log(chalk.white('Completed job : ', chalk.bold('Auto Increment Redet ', chalk.green('✅'))));
   } catch (e) {
     console.log(chalk.yellow('Warning:', chalk.white('Could not alter sequence\n')));
   }

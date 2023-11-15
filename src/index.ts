@@ -25,6 +25,7 @@ program.command('pg')
   .action(async function (this: any) {
     const option = this.opts();
     await SEED_POSTGRES(option.num as number);
+    redis.quit();
   });
 
 program.command('redis')
@@ -39,20 +40,23 @@ program.command('truncate')
   .argument('<database>', 'Database to be truncated')
   .action(async (database) => {
     const dbArg: string = _.toLower(database)
-    if (dbArg === 'pg' || dbArg === 'postgresql' || dbArg === 'postgres') 
+    if (dbArg === 'pg' || dbArg === 'postgresql' || dbArg === 'postgres') {
       await TRUNCATE_POSTGRES();
+    }
     else if (dbArg === 'redis') {
       await TRUNCATE_REDIS();
-      redis.quit();
     }
     else
       console.log(chalk.red(`Unknown Argument '${dbArg}'`));
+
+    redis.quit();
   })
 
 program.command('prepare')
   .description(chalk.bold('This commands prepares the data for seeding and stores the prepared json files in src/data/.',))
   .action(async function (this: any) {
     await PREPARE_DATA(true);
+    redis.quit();
   })
 
 await program.parseAsync()
