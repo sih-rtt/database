@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import fs from 'node:fs';
 import chalk from 'chalk';
 import path from 'node:path';
-const cliProgress = require('cli-progress');
+import cliProgress from 'cli-progress';;
 
 const prisma = new PrismaClient();
 
@@ -13,7 +13,7 @@ export const seedCombinedBusRoutes = async () => {
   try{
     console.log('\n');
 
-    const pathName: PathOrFileDescriptor = path.resolve('src','data','combined-routes.json');
+    const pathName = path.resolve('src','data','combined-routes.json');
     const combindeRoutes: any = JSON.parse(fs.readFileSync(pathName, 'utf-8'))?.combinedRoutes;
 
     const busRefs: any[] = Object.keys(combindeRoutes)

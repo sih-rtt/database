@@ -1,8 +1,8 @@
-import { seedBusStops } from './bus-stop';
-import { seedBuses } from './bus';
-import { seedSuggest } from './suggest';
-import { createTestStream, truncateTestStream } from './locations-stream';
-import { seedCompleteRedis, truncateRedisRepos } from './main';
+import { seedBusStops } from './bus-stop.js';
+import { seedBuses } from './bus.js';
+import { seedSuggest } from './suggest.js';
+import { createTestStream, truncateTestStream } from './locations-stream.js';
+import { seedCompleteRedis, truncateRedisRepos } from './main.js';
 
 export {
   seedBusStops as SEED_REDIS_BUSSTOP,

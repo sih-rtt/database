@@ -2,10 +2,15 @@
   "name": "db_seed",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "build": "npx tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",
+    "@types/cli-progress": "^3.11.5",
     "@types/lodash": "^4.14.200",
-    "bun-types": "latest"
+    "@types/node": "20.9.3"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

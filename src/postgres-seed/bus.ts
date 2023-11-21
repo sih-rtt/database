@@ -4,7 +4,7 @@ import path from 'node:path';
 import _ from 'lodash';
 import { fakerEN_IN as faker } from '@faker-js/faker';
 import chalk from 'chalk';
-const cliProgress = require('cli-progress');
+import cliProgress from 'cli-progress';;
 
 const prisma = new PrismaClient();
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
@@ -16,7 +16,7 @@ export const seedBus = async () => {
   try{
     console.log('\n');
 
-    const pathName: PathOrFileDescriptor = path.resolve('src', 'data', 'buses.json');
+    const pathName = path.resolve('src', 'data', 'buses.json');
     const buses: string[] = JSON.parse(fs.readFileSync(pathName, 'utf-8')).buses;
 
     progressBar.start(buses.length, 0);

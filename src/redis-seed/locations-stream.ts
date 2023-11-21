@@ -1,9 +1,9 @@
-import redis from './redis';
+import redis from './redis.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import chalk from 'chalk';
 import { PrismaClient } from '@prisma/client';
-const cliProgress = require('cli-progress')
+import cliProgress from 'cli-progress';
 
 const prisma = new PrismaClient();
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);;
@@ -25,13 +25,13 @@ export const createTestStream = async () => {
   try {
     console.log('\n');
 
-    const pathName: PathOrFileDescriptor = path.resolve('src', 'data', 'routes.json');
+    const pathName = path.resolve('src', 'data', 'routes.json');
     const routes = JSON.parse(fs.readFileSync(pathName, 'utf-8')).routesWithRef;
 
     const selectedRoutes: any[] = routes.filter((route: any) => route.type === 'relation' && route.tags.ref === 'V-500D');
     const busStops = selectedRoutes[1].members.filter((member: any) => member.type === 'node');
 
-    progressBar.start(busStops.length);
+    progressBar.start(busStops.length, 0);
     for (let i = 0; i < busStops.length; i++) {
       const busStop: any[] = await prisma.$queryRaw`
       SELECT name,

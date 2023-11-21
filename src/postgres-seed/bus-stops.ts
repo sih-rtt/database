@@ -3,7 +3,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 import chalk from 'chalk';
 import { createId } from '@paralleldrive/cuid2';
-const cliProgress = require('cli-progress');
+import cliProgress from 'cli-progress';;
 
 const prisma = new PrismaClient();
 
@@ -15,7 +15,7 @@ export const seedBusStops = async () => {
   try{
     console.log('\n');
 
-    const pathName: PathOrFileDescriptor = path.resolve('src','data','bus-stops.json');
+    const pathName = path.resolve('src','data','bus-stops.json');
     const busStops: any[] = JSON.parse(fs.readFileSync(pathName, 'utf-8')).busStops;
 
     progressBar.start(busStops.length, 0);

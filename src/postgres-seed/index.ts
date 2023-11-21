@@ -1,9 +1,9 @@
-import { seedConductor } from './conductor';
-import { seedBusStops } from './bus-stops';
-import { seedBusRoutes } from './bus-routes';
-import { seedCombinedBusRoutes } from './combined-routes';
-import { seedBus } from './bus';
-import { seedCompletePg, truncatePgTables } from './main';
+import { seedConductor } from './conductor.js';
+import { seedBusStops } from './bus-stops.js';
+import { seedBusRoutes } from './bus-routes.js';
+import { seedCombinedBusRoutes } from './combined-routes.js';
+import { seedBus } from './bus.js';
+import { seedCompletePg, truncatePgTables } from './main.js';
 
 export {
   seedConductor as SEED_POSTGRE_CONDUCTOR,

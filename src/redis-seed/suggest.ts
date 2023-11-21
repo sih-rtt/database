@@ -1,7 +1,7 @@
 import { Entity, EntityId } from 'redis-om';
-import redis, { busRepo, busStopRepo, suggestRepo } from './redis';
+import { busRepo, busStopRepo, suggestRepo } from './redis.js';
 import chalk from 'chalk';
-const cliProgress = require('cli-progress');
+import cliProgress from 'cli-progress';;
 
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
