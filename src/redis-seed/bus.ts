@@ -1,10 +1,10 @@
-import { busRepo } from './redis';
+import { busRepo } from './redis.js';
 import { PrismaClient } from '@prisma/client';
 import { Entity, EntityId } from 'redis-om';
 import fs from 'node:fs';
 import path from 'node:path';
 import chalk from 'chalk';
-const cliProgress = require('cli-progress');
+import cliProgress from 'cli-progress';;
 
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 const prisma = new PrismaClient();
@@ -14,7 +14,7 @@ export const seedBuses = async () => {
   try{
     console.log('\n');
 
-    const pathName: PathOrFileDescriptor = path.resolve('src', 'data', 'routes.json');
+    const pathName = path.resolve('src', 'data', 'routes.json');
     const routes: any[] = JSON.parse(fs.readFileSync(pathName, 'utf-8')).routesWithRef;
     const buses =  await prisma.bus.findMany();
 

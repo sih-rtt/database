@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { fakerEN_IN as faker } from '@faker-js/faker';
 import _ from 'lodash';
 import chalk from 'chalk';
-const cliProgress = require('cli-progress');
+import cliProgress from 'cli-progress';;
 
 const prisma = new PrismaClient();
 faker.seed(parseInt(process.env.SEED as string));

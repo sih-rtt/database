@@ -176,3 +176,5 @@ dist
 
 # Data for postgres docker container
 data
+
+*.tsbuildinfo

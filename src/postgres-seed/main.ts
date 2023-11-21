@@ -1,11 +1,11 @@
 import chalk from 'chalk';
 import { PrismaClient } from '@prisma/client';
-import { seedBusRoutes } from './bus-routes';
-import { seedBusStops } from './bus-stops';
-import { seedCombinedBusRoutes } from './combined-routes';
-import { seedConductor } from './conductor';
-import { seedBus } from './bus';
-import { PREPARE_DATA } from '../prepare';
+import { seedBusRoutes } from './bus-routes.js';
+import { seedBusStops } from './bus-stops.js';
+import { seedCombinedBusRoutes } from './combined-routes.js';
+import { seedConductor } from './conductor.js';
+import { seedBus } from './bus.js';
+import { PREPARE_DATA } from '../prepare/index.js';
 import fs from 'node:fs';
 import path from 'node:path';
 

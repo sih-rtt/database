@@ -1,12 +1,11 @@
 import chalk from 'chalk';
-import { PrismaClient } from '@prisma/client';
-import { PREPARE_DATA } from '../prepare';
+import { PREPARE_DATA } from '../prepare/index.js';
 import fs from 'node:fs';
 import path from 'node:path';
-import { seedBuses, truncateBus } from './bus';
-import { seedBusStops, truncateBusStop } from './bus-stop';
-import { seedSuggest, truncateSuggest } from './suggest';
-import { createTestStream, truncateTestStream } from './locations-stream';
+import { seedBuses, truncateBus } from './bus.js';
+import { seedBusStops, truncateBusStop } from './bus-stop.js';
+import { seedSuggest, truncateSuggest } from './suggest.js';
+import { createTestStream, truncateTestStream } from './locations-stream.js';
 
 export const seedCompleteRedis = async () => {
 

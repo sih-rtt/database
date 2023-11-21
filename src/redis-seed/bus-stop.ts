@@ -1,8 +1,8 @@
-import { busStopRepo } from './redis';
+import { busStopRepo } from './redis.js';
 import { PrismaClient } from '@prisma/client';
 import chalk from 'chalk';
 import { Entity, EntityId } from 'redis-om';
-const cliProgress = require('cli-progress');
+import cliProgress from 'cli-progress';;
 
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 const prisma = new PrismaClient();

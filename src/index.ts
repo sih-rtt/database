@@ -1,16 +1,16 @@
 import {
   SEED_POSTGRES,
   TRUNCATE_POSTGRES
-} from './postgres-seed';
+} from './postgres-seed/index.js';
 import {
   SEED_REDIS,
   TRUNCATE_REDIS
-} from './redis-seed';
+} from './redis-seed/index.js';
 import { Command } from 'commander';
 import chalk from 'chalk';
 import _ from 'lodash';
-import redis from './redis-seed/redis';
-import { PREPARE_DATA } from './prepare';
+import redis from './redis-seed/redis.js';
+import { PREPARE_DATA } from './prepare/index.js';
 
 const program = new Command();
 
