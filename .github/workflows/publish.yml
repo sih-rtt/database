@@ -17,7 +17,6 @@ jobs:
           node-version: '20.x'
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@anmolsudhir'
-      - run: npm ci --ignore-scripts
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
