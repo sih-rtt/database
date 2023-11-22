@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './index.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import _ from 'lodash';
@@ -6,7 +6,6 @@ import { fakerEN_IN as faker } from '@faker-js/faker';
 import chalk from 'chalk';
 import cliProgress from 'cli-progress';;
 
-const prisma = new PrismaClient();
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 const infoArray = [ 'electric', 'cng', 'petrol', 'petrol', 'petrol']
 

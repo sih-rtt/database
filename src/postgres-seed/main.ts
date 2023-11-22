@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './index.js';
 import { seedBusRoutes } from './bus-routes.js';
 import { seedBusStops } from './bus-stops.js';
 import { seedCombinedBusRoutes } from './combined-routes.js';
@@ -9,9 +9,7 @@ import { PREPARE_DATA } from '../prepare/index.js';
 import fs from 'node:fs';
 import path from 'node:path';
 
-const prisma = new PrismaClient();
-
-export const seedCompletePg = async (numRecords: number) => {
+export const seedCompletePg = async () => {
 
   await truncatePgTables();
 
@@ -40,7 +38,7 @@ export const seedCompletePg = async (numRecords: number) => {
     chalk.white.bold('\t5. Seed Bus')
   )
 
-  await seedConductor(numRecords);
+  await seedConductor();
   console.log(chalk.white('Completed job (1/5): ', chalk.bold('Seed Conductor ', chalk.green('✅'))));
 
   await seedBusStops();
@@ -58,11 +56,12 @@ export const seedCompletePg = async (numRecords: number) => {
 
 export const truncatePgTables = async () => {
   console.log(
-    chalk.white('Running', chalk.bold(4), 'jobs:\n'),
+    chalk.white('\nRunning', chalk.bold(5), 'jobs:\n'),
     chalk.white.bold('\t1. Truncate Conductor\n'),
     chalk.white.bold('\t2. Truncate BusStop\n'),
     chalk.white.bold('\t3. Truncate BusRoute\n'),
-    chalk.white.bold('\t4. Truncate CombinedRoute')
+    chalk.white.bold('\t4. Truncate CombinedRoute\n'),
+    chalk.white.bold('\t5. Truncate Bus')
   );
   await prisma.$executeRaw`TRUNCATE TABLE \"Conductor\" CASCADE;`;
   console.log(chalk.white('Completed job (1/5): ', chalk.bold('Truncate Conductor ', chalk.green('✅'))));

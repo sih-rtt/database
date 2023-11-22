@@ -1,10 +1,9 @@
 import { Entity, EntityId } from 'redis-om';
-import { busRepo, busStopRepo, suggestRepo } from './redis.js';
+import { busRepo, busStopRepo, suggestRepo } from './index.js';
 import chalk from 'chalk';
 import cliProgress from 'cli-progress';;
 
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-
 
 export const seedSuggest = async () => {
   try{

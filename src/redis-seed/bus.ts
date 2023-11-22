@@ -1,5 +1,4 @@
-import { busRepo } from './redis.js';
-import { PrismaClient } from '@prisma/client';
+import { prisma, busRepo } from './index.js';
 import { Entity, EntityId } from 'redis-om';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -7,8 +6,6 @@ import chalk from 'chalk';
 import cliProgress from 'cli-progress';;
 
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-const prisma = new PrismaClient();
-
 
 export const seedBuses = async () => {
   try{

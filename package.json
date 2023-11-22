@@ -1,10 +1,20 @@
 {
-  "name": "db_seed",
+  "name": "@sih-rtt/dbtool",
+  "version": "0.1.0",
   "module": "index.ts",
   "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "dbtool": "./dist/index.js"
+  },
   "scripts": {
+    "preinstall": "node -e 'import(\"./src/script.js\").then( loadedModule => loadedModule.createEnv() )'",
     "build": "npx tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "npx tsc"
+  },
+  "publishConfig": {
+    "@sih-rtt:registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",
@@ -18,12 +28,15 @@
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
     "@prisma/client": "latest",
+    "@sih-rtt/dbclient": "latest",
+    "@types/readline-sync": "^1.4.8",
     "chalk": "^5.3.0",
     "cli-progress": "^3.12.0",
     "commander": "^11.1.0",
     "lodash": "^4.17.21",
     "ora": "^7.0.1",
     "prisma": "latest",
+    "readline-sync": "^1.4.10",
     "redis": "^4.6.10",
     "redis-om": "^0.4.3"
   }

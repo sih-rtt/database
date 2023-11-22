@@ -3,7 +3,6 @@
 **This in an internal dev databse seeding tool.**
 
 > Important!: PostgreSQL must be seeded before Redis as Redis seeding uses data from postgreSQL.
-> Install Bun JS Runtime to work with this tool.
 
 ### Important pointers for postgreSQL database
 - Make sure that postgis/postgis is used to run docker container.
@@ -25,24 +24,15 @@
 To install dependencies run:
 
 ```bash
-bun install
+node install
 ```
-### Migrate schema to postgreSQL database
-
-To migrate schema postgreSQL database run: 
-
-```bash
-bunx prisma migrate dev
-```
-
-> It is important to migrate schema and generate prisma client to seed the database.
 
 ### Usage
 
 For help while using the tool:
 
 ```bash
-bun src/index.ts help
+node dist/index.js help
 ```
 
 **Example Usage:**
@@ -50,14 +40,14 @@ bun src/index.ts help
 Here is a  exhaustive list of accepted commands:
 
 ```bash
-bun src/index.ts pg
-bun src/index.ts pg -n 1000
-bun src/index.ts redis
-bun src/index.ts truncate pg
-bun src/index.ts truncate redis
-bun src/index.ts prepare
+node dist/index.js pg
+node dist/index.js redis
+node dist/index.js truncate pg
+node dist/index.js truncate redis
+node dist/index.js prepare
+node dist/index.js set
 ```
 
-- The -n (or the --num) flag is used to specify the number of records to be inserted in the "Conductor" table.
+- The "set" command sets or updates the DATABASE_URL environment variable.
 - The "truncate" command truncates the database.
 - The "prepare" command prepares the data. Replaces data if it already existed else creates "src/data/" directory and stores the prepared data.

@@ -1,11 +1,9 @@
-import redis from './redis.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import chalk from 'chalk';
-import { PrismaClient } from '@prisma/client';
+import { prisma, redis } from './index.js';
 import cliProgress from 'cli-progress';
 
-const prisma = new PrismaClient();
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);;
 
 export const truncateTestStream = async () => {
