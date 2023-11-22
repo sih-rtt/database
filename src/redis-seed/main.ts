@@ -50,11 +50,11 @@ export const seedCompleteRedis = async () => {
 
 export const truncateRedisRepos = async () => {
   console.log(
-    chalk.white('Running', chalk.bold(4), 'jobs:\n'),
+    chalk.white('\nRunning', chalk.bold(4), 'jobs:\n'),
     chalk.white.bold('\t1. Truncate Bus\n'),
     chalk.white.bold('\t2. Truncate BusStop\n'),
     chalk.white.bold('\t3. Truncate Suggest\n'),
-    chalk.white.bold('\n4. Truncate Test Stream\n')
+    chalk.white.bold('\t4. Truncate Test Stream')
   );
   await truncateBus();
   console.log(chalk.white('Completed job (1/4): ', chalk.bold('Truncate Bus ', chalk.green('✅'))));

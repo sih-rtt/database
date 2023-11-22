@@ -7,7 +7,7 @@
     "dbtool": "./dist/index.js"
   },
   "scripts": {
-    "preinstall": "node src/script.js",
+    "preinstall": "node -e 'import(\"./src/script.js\").then( loadedModule => loadedModule.createEnv() )'",
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "npx tsc"
@@ -24,7 +24,7 @@
   "dependencies": {
     "@paralleldrive/cuid2": "^2.2.2",
     "@prisma/client": "latest",
-    "@sih-rtt/dbclient": "^0.1.2",
+    "@sih-rtt/dbclient": "latest",
     "@types/readline-sync": "^1.4.8",
     "chalk": "^5.3.0",
     "cli-progress": "^3.12.0",

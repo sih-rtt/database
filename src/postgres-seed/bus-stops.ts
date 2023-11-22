@@ -1,11 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from './index.js';
 import path from 'node:path';
 import fs from 'node:fs';
 import chalk from 'chalk';
 import { createId } from '@paralleldrive/cuid2';
 import cliProgress from 'cli-progress';;
-
-const prisma = new PrismaClient();
 
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 

@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 import {
   SEED_POSTGRES,
   TRUNCATE_POSTGRES
@@ -7,38 +9,55 @@ import {
   TRUNCATE_REDIS
 } from './redis-seed/index.js';
 import { Command } from 'commander';
+import { redis } from './redis-seed/index.js';
+import { PREPARE_DATA } from './prepare/index.js';
 import chalk from 'chalk';
 import _ from 'lodash';
-import redis from './redis-seed/redis.js';
-import { PREPARE_DATA } from './prepare/index.js';
+import { updateEnv } from './script.js';
+import fs from 'fs';
 
 const program = new Command();
 
 program
-  .name('seed')
-  .description(chalk.bold('Internal CLI tool to seed dev database.'))
-  .version('0.0.1');
+  .name('dbtool')
+  .description(chalk.bold('Internal CLI tool to manage dev database.'))
+  .version('0.1.0');
 
-program.command('pg')
-  .description(chalk.bold('This commands helps in seeding of PostgreSQL Database.'))
-  .option('-n, --num <int>', 'Number of records to be seeded. (Works only for "Conductor" table)', '100')
-  .action(async function (this: any) {
-    const option = this.opts();
-    await SEED_POSTGRES(option.num as number);
+program.command('set')
+  .description(chalk.bold('This commands sets ot updates Database url.'))
+  .action(() => {
+    updateEnv();
     redis.quit();
   });
 
-program.command('redis')
-  .description(chalk.bold('This commands helps in seeding of Redis Database.',))
-  .action(async function (this: any) {
-    await SEED_REDIS();
+program.command('seed')
+  .description(chalk.bold('This commands helps in seeding of Database.'))
+  .argument('<database>', 'Database to be seeded')
+  .action(async (database) => {
+    if(!fs.existsSync('.env'))
+      await updateEnv();
+    const dbArg: string = _.toLower(database)
+    if (dbArg === 'pg' || dbArg === 'postgresql' || dbArg === 'postgres') {
+      await SEED_POSTGRES();
+    }
+    else if (dbArg === 'redis') {
+      await SEED_REDIS();
+    }
+    else if (dbArg === 'all') {
+      await SEED_POSTGRES();
+      await SEED_REDIS();
+    }
+    else
+      console.log(chalk.red(`Unknown Argument '${dbArg}'`));
     redis.quit();
-  })
+  });
 
 program.command('truncate')
-  .description(chalk.bold('This commands truncates the PostgreSQL Database.'))
+  .description(chalk.bold('This commands truncates the Database.'))
   .argument('<database>', 'Database to be truncated')
   .action(async (database) => {
+    if (!fs.existsSync('.env'))
+      await updateEnv();
     const dbArg: string = _.toLower(database)
     if (dbArg === 'pg' || dbArg === 'postgresql' || dbArg === 'postgres') {
       await TRUNCATE_POSTGRES();
