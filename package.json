@@ -1,5 +1,6 @@
 {
-  "name": "db_seed",
+  "name": "@sih-rtt/dbtool",
+  "version": "0.1.0",
   "module": "index.ts",
   "type": "module",
   "main": "dist/index.js",
@@ -11,6 +12,9 @@
     "build": "npx tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "postinstall": "npx tsc"
+  },
+  "publishConfig": {
+    "@sih-rtt:registry": "https://npm.pkg.github.com"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",
