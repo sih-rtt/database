@@ -1,8 +1,10 @@
 import { prisma } from './index.js';
+import { getPolyline } from '../utils/index.js';
 import fs from 'node:fs';
 import chalk from 'chalk';
 import path from 'node:path';
-import cliProgress from 'cli-progress';;
+import cliProgress from 'cli-progress';
+import _ from 'lodash';
 
 const progressBar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 
@@ -20,14 +22,17 @@ export const seedBusRoutes = async () => {
     progressBar.start(busRoutes.length, 0);
     for (let i = 0; i < busRoutes.length; i++) {
       const busStopMembers = busRoutes[i].members.filter((member: any) => member?.type === 'node')
+
       const createdRoute = await prisma.route.create({
         data: {
           refId: busRoutes[i]?.id,
           from: busRoutes[i]?.tags?.from ?? undefined,
           to: busRoutes[i]?.tags?.to ?? undefined,
+          polyline: busStopMembers.length < 2 ? 'undefined' : await getPolyline(busStopMembers, busStops),
           busStops: {
-            create: busStopMembers.map((busStop: any) => {
+            create: busStopMembers.map((busStop: any, idx: number) => {
               return {
+                index: idx,
                 busStop: {
                   connect: {
                     refId: busStop?.ref
@@ -56,7 +61,7 @@ export const seedBusRoutes = async () => {
         WHERE "id"=${createdRoute.id};
       `;
 
-      progressBar.update(i);
+     progressBar.update(i);
     }
 
     progressBar.update(busRoutes.length);
