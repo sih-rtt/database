@@ -56,7 +56,6 @@ export const truncateBusStop = async () => {
       const bus: string = busStops[i][EntityId] as string
       await busStopRepo.remove(bus);
     }
-    busStopRepo.dropIndex();
 
   } catch(e) {
     console.log(e)

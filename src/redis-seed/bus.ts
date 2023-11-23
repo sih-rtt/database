@@ -70,7 +70,6 @@ export const truncateBus = async () => {
       const bus: string = buses[i][EntityId] as string
       await busRepo.remove(bus);
     }
-    busRepo.dropIndex();
 
   } catch(e) {
     console.log(e)

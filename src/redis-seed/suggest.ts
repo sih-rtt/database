@@ -57,7 +57,6 @@ export const truncateSuggest = async () => {
       const bus: string = suggestEntities[i][EntityId] as string
       await suggestRepo.remove(bus);
     }
-    suggestRepo.dropIndex();
 
   } catch(e) {
     console.log(e)
